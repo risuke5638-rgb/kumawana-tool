@@ -1,0 +1,223 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>🐻 熊罠 編成ツール</title><style>
+:root{color-scheme:dark;--bg:#0b1220;--panel:#172338;--line:#30415b;--txt:#eef4ff;--mut:#a5b5ca;--w:#60a5fa;--c:#fbbf24;--b:#4ade80}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,'Noto Sans JP',sans-serif;font-size:14px}main{max-width:780px;margin:auto;padding:12px 10px 40px}h1{font-size:20px;margin:5px 0 4px}h2{font-size:16px;margin:0 0 12px}.mut{color:var(--mut);font-size:12px}.panel,.unit{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:13px;margin-top:12px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.fld label{display:block;color:var(--mut);font-size:12px;margin-bottom:4px}input[type=number],input[data-comma],select{background:#0b1629;border:1px solid #40506a;border-radius:8px;color:white;padding:10px 7px;width:100%;min-width:0;font-size:16px}input[type=number]:focus,input[data-comma]:focus,select:focus{outline:2px solid #60a5fa}button{border:0;border-radius:10px;background:#2563eb;color:white;padding:13px;font-weight:700;font-size:15px;width:100%;cursor:pointer}.soft{background:#263954}.titleline{display:flex;justify-content:space-between;gap:8px;align-items:center}.pills{display:flex;gap:8px;flex-wrap:wrap}.pills label{background:#243650;padding:8px 10px;border-radius:9px}.pills input{accent-color:#60a5fa}.troop{border:1px solid;border-radius:10px;padding:8px 3px;text-align:center;min-width:0;background:#101d30}.troop .name{font-size:12px;font-weight:700}.troop .num{font-size:clamp(15px,4.5vw,22px);font-weight:800;letter-spacing:-.5px;white-space:nowrap}.w{color:var(--w);border-color:#375d8b}.c{color:var(--c);border-color:#806221}.b{color:var(--b);border-color:#2d7b4d}.add{background:#3b301b;border:1px solid #856328;border-radius:9px;padding:10px;margin:9px 0;font-weight:700}.ratio{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}.ratio th,.ratio td{padding:7px 3px;text-align:center;border-bottom:1px solid #30415b}.bar{display:flex;height:10px;border-radius:9px;overflow:hidden;margin-top:9px}.bar span{height:100%}.bar .w{background:var(--w)}.bar .c{background:var(--c)}.bar .b{background:var(--b)}.row{display:flex;justify-content:space-between;align-items:center;gap:8px}.tag{font-size:11px;background:#273b58;border-radius:6px;padding:4px 6px}.warn{background:#3b2a1f;border:1px solid #a96a2b;color:#ffe2b4;padding:10px;border-radius:9px;margin:8px 0;line-height:1.6}.good{color:#8ee7a5}.tiny{font-size:11px}.hidden{display:none}.foot{margin-top:12px;line-height:1.65}summary{cursor:pointer;font-weight:700}details{margin-top:8px}.check{margin-top:10px;display:flex;align-items:center;gap:7px}input[type=checkbox]{width:18px;height:18px;accent-color:#3b82f6}#results{scroll-margin-top:12px}.rate-controls{display:flex;align-items:stretch;gap:8px}.rate-controls select{width:60%;flex:1;min-width:0}.rate-controls button{width:100px;flex:0 0 100px;padding:9px 6px;font-size:15px;background:#2563eb}
+.ocr-panel{background:#101d30;border:1px dashed #5377a5;border-radius:11px;padding:12px;margin-bottom:14px}.shot-label{display:block;text-align:center;background:#2563eb;border-radius:9px;padding:12px;font-weight:700;cursor:pointer}.ocr-panel input[type=text]{background:#0b1629;border:1px solid #40506a;border-radius:8px;color:white;padding:9px 5px;width:100%;min-width:0;font-size:15px}.ocr-panel .fld label{font-size:11px}.ocr-panel button{margin-top:7px}</style><link rel="icon" type="image/webp" href="data:image/webp;base64,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"><link rel="apple-touch-icon" href="icon-192.webp"><link rel="manifest" href="manifest.webmanifest"></head><body><main><h1>🐻 熊罠 編成ツール</h1><div class="mut">公開版 v21｜切り札兵の登録人数・手動追加・比率を表示</div>
+<section class="panel"><h2>1. 兵士数</h2><div class="mut" style="margin-bottom:8px">兵士数を入力するか、スクショから読み取ってください。</div><div class="ocr-panel"><label for="shot" class="shot-label">📸 部隊一覧のスクショを選択</label><input id="shot" type="file" accept="image/*" style="display:none"><div class="mut" style="margin-top:6px">「全部」タブのスクショを選択。人数・並び順が異なる場合も、表示行数と兵種の割り当てを変更できます。数字は自動認識、兵種は画像を見ながら確認してください。初回は通信が必要です。</div><div style="display:flex;gap:8px;align-items:end;margin-top:10px"><div class="fld" style="flex:1"><label for="ocrRows">表示されている行数</label><select id="ocrRows"><option value="1">1行（最大2種類）</option><option value="2">2行（最大4種類）</option><option value="3">3行（最大6種類）</option><option value="4">4行（最大8種類）</option><option value="5">5行（最大10種類）</option><option value="6">6行（最大12種類）</option><option value="7">7行（最大14種類）</option><option value="8" selected>8行（最大16種類）</option><option value="9">9行（最大18種類）</option><option value="10">10行（最大20種類）</option><option value="11">11行（最大22種類）</option><option value="12">12行（最大24種類）</option></select></div><div class="mut" style="flex:2;font-size:12px">左右2列。兵種の順番は読み取り後に変更可能</div></div><div id="ocrStatus" class="mut" style="margin-top:7px" aria-live="polite"></div><div id="ocrReview" class="hidden"><h3 style="font-size:14px;margin:10px 0 5px">兵士数の読み取り結果</h3><div class="grid3" id="ocrFields"></div><div class="mut" style="margin:8px 0">各画像・数字・兵種を確認してください。表示されない兵士は集計されません。</div><button type="button" id="applyOcr">確認した数字を入力欄に反映</button></div></div><b>切り札兵</b><div class="grid3" id="topFields"></div><b style="display:block;margin-top:12px">切り札兵以外</b><div class="grid3" id="otherFields"></div></section>
+<section class="panel"><h2>2. 編成条件</h2><div class="grid2"><div class="fld"><label for="cap">通常部隊容量</label><input type="text" inputmode="numeric" data-comma id="cap" value="" placeholder="通常部隊容量"></div><div class="fld"><label for="extra">手動追加容量</label><input type="text" inputmode="numeric" data-comma id="extra" value="" placeholder="手動追加容量"></div><div class="fld"><label for="leaders">自分より強い集結主</label><select id="leaders"><option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></div><div class="fld"><label>集結の参加方法</label><select id="mode"><option value="yes" selected>集結用あり</option><option value="no">乗り手のみ</option></select></div></div><label class="check"><input id="fill" type="checkbox" checked> 残兵で追加編成を1部隊だけ作る</label><div class="mut" style="margin-top:8px">優先編成：歩兵＜騎兵＜弓兵。歩兵は約10%。優先編成の騎兵・弓兵は500人単位、端数は歩兵へ。追加編成は端数まで使います。</div></section>
+<button id="calc" style="margin-top:12px">🐻 おすすめを自動計算</button><section id="results"><div id="overview" class="panel mut" style="line-height:1.7">兵士数から部隊数と弓兵比率を自動提案します。集結用ありの場合は必ず集結用を優先します。</div><section id="ratePanel" class="panel hidden"><h2>おすすめ比率・調整</h2><div class="mut" style="margin-bottom:7px">兵士数から自動提案した比率です。比率を選んで「調整」を押すと、その比率で再計算します。</div><div class="fld"><label for="bow">優先編成の追加後弓兵比率</label><div class="rate-controls"><select id="bow"><option value="50">50%</option><option value="52">52%</option><option value="54">54%</option><option value="56">56%</option><option value="58">58%</option><option value="60" selected>60%（おすすめ）</option><option value="62">62%</option><option value="64">64%</option><option value="66">66%</option><option value="68">68%</option><option value="70">70%</option><option value="72">72%</option><option value="74">74%</option><option value="76">76%</option><option value="78">78%</option><option value="80">80%</option></select><button id="adjust" type="button">調整</button></div></div></section><div id="cards"></div></section><details class="panel foot mut" style="margin-top:10px"><summary>計算の注意事項・計算方針</summary><div><b>試作版の計算方針</b><br>優先編成の弓兵比率は手動追加後を基準に逆算し、保有兵士数から自動選択します（60%は目安）。集結用の追加後弓兵比率は優先編成の設定値−10ポイント（60%→50%、62%→52%）。①〜強い集結主の人数分、次に集結用を完成させ、最後に余りで追加編成を最大1つ作ります。集結用は設定値に連動した弓兵比率を確保し、登録歩兵を最小限にして騎兵を厚くします。手動追加は歩兵固定。追加編成も手動追加は歩兵固定で、騎兵を事前確保せず、登録人数は500人単位に丸めず余りを最大限使います。弓兵を余らせる場合は、優先編成の目標比率を上げる余地があります。兵士の重複配分はしません。<br><br>※実測ダメージによる最適化ではなく試作アルゴリズムです。スクショ読み取りは確認用の試験機能です。</div></details>
+<div class="panel mut" style="margin-top:10px;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap"><span id="saveNotice">入力内容はこの端末のブラウザに自動保存されます</span><button type="button" id="clearSaved" style="width:auto;background:#334155;padding:9px 13px">入力を初期化</button></div></main><script>
+'use strict';const types=[['w','歩兵','w'],['c','騎兵','c'],['b','弓兵','b']];const initial={top:{w:'',c:'',b:''},other:{w:'',c:'',b:''}};const fmt=n=>Math.max(0,Math.round(n)).toLocaleString('ja-JP');const round500=n=>Math.max(0,Math.floor(n/500)*500);const pct=(v,s)=>s? (100*v/s).toFixed(1)+'%':'0.0%';const sum=a=>a.w+a.c+a.b;const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+for(const [group,el] of [['top','topFields'],['other','otherFields']]){document.getElementById(el).innerHTML=types.map(([id,name,cls])=>`<div class="fld"><label class="${cls}" for="${group}_${id}">${name}</label><input id="${group}_${id}" type="text" inputmode="numeric" data-comma value="" placeholder="人数"></div>`).join('')}
+function read(){const n=id=>Math.max(0,Math.floor(Number(document.getElementById(id).value.replace(/,/g,''))||0));return {top:Object.fromEntries(types.map(([id])=>[id,n('top_'+id)])),other:Object.fromEntries(types.map(([id])=>[id,n('other_'+id)])),cap:n('cap'),extra:n('extra'),leaders:n('leaders'),bow:n('bow'),own:document.getElementById('mode').value==='yes',fill:document.getElementById('fill').checked}}
+function take(avail,req){for(const k of ['w','c','b'])avail[k]-=req[k]}
+let manualRate=null;
+function build(input){
+ const {cap,extra,leaders,bow,own,fill}=input;
+ const other={...input.other},warnings=[],symbols='①②③④⑤⑥';
+ const blank=()=>({w:0,c:0,b:0});
+ if(!cap)return {units:[],warnings:['通常部隊容量を入力してください。'],avail:{...input.top},other,chosen:0,joined:0};
+ const total=cap+extra, maxJoin=Math.min(6,leaders);
+ const make=(name,top,add,priority=false)=>({name,top,other:blank(),add,priority,full:sum(top)===cap});
+ // Build the core FIRST: joined formations and own rally. No resources are reserved for leftovers.
+ function candidate(join,rate){
+   const av={...input.top},units=[];
+   for(let i=0;i<join;i++){
+     const b=round500(total*rate/100);
+     // Infantry roughly 10% of registration; all rounding remainder to infantry.
+     const c=round500(Math.min(cap-b,Math.max(0,cap-b-cap*.10)));
+     const w=cap-b-c;
+     if(b<=0||w<0||!(w<c&&c<b)||av.w<w||av.c<c+extra||av.b<b)return null;
+     const u=make(symbols[i],{w,c,b},{w:0,c:extra,b:0},true);
+     take(av,u.top);take(av,u.add);units.push(u);
+   }
+   if(own){
+     const b=round500(total*Math.max(0,rate-10)/100);
+     // Infantry +extra is counted in the final ratio; cavalry gets all remaining capacity.
+     const c=round500(cap-b),w=cap-b-c;
+     if(b<=0||c<=0||w<0||av.w<w+extra||av.c<c||av.b<b||!(w+extra<c&&c<b))return null;
+     const u=make('集結用',{w,c,b},{w:extra,c:0,b:0});
+     take(av,u.top);take(av,u.add);units.push(u);
+   }
+   return units.length?{units,avail:av,chosen:rate,joined:join}:null;
+ }
+ const options=[50,52,54,56,58,60,62,64,66,68,70,72,74,76,78,80];
+ const rateOptions=manualRate!==null?[bow]:options;
+ const possibilities=[];
+ for(let join=maxJoin;join>=0;join--){
+   for(const rate of rateOptions){
+     const c=candidate(join,rate);if(!c)continue;
+     // A residual unit is useful only if it has enough archers to justify deployment.
+     const residualB=c.avail.b+other.b;
+     const residualViable=fill&&join<6&&residualB>=Math.max(10000,total*.18);
+     // Favor core strength, meaningful leftover, and realistic archer share.
+     // 60% is a preference, not a hardcoded answer. Lower it when the army benefits.
+     const residualTarget=fill&&join<6?Math.min(45000,total*.23):0;
+     const residualQuality=residualTarget?Math.min(1,residualB/residualTarget):1;
+     const score=join*110+(own?70:0)+Math.min(rate,60)*1.5
+        -Math.max(0,rate-60)*.65
+        +(residualViable?18*residualQuality:0)
+        -(fill&&residualB<residualTarget?12*(1-residualQuality):0)
+        -Math.max(0,45-rate)*2.2;
+     possibilities.push({...c,score,residualViable});
+   }
+ }
+ possibilities.sort((a,b)=>b.score-a.score||b.chosen-a.chosen);
+ let selected=possibilities[0];
+ if(!selected)return {units:[],warnings:['保有兵士数では、手動追加を含めた編成を作れません。容量や兵士数を確認してください。'],avail:{...input.top},other,chosen:0,joined:0};
+ const {units,avail,chosen,joined}=selected;
+ // One leftover formation: use ALL available lower-tier archers, then top-tier archers.
+ // No 500-person rounding in this residual formation. Fill normal capacity using cavalry/infantry.
+ if(fill&&joined<6){
+   const ob=Math.min(other.b,cap), b=Math.min(avail.b,cap-ob);
+   let room=cap-ob-b;
+   let c=Math.min(avail.c,room);room-=c;
+   let w=Math.min(avail.w,room);room-=w;
+   // Lower-tier cavalry/infantry may be used when necessary to fill the registration capacity.
+   let oc=Math.min(other.c,room);room-=oc;
+   let ow=Math.min(other.w,room);room-=ow;
+   const registered=b+ob+c+w+oc+ow;
+   if(b+ob>0&&registered>=Math.min(cap,Math.max(1000,cap*.2))){
+     const u=make(symbols[joined],{w,c,b},blank());
+     u.other={w:ow,c:oc,b:ob};u.full=registered===cap;
+     take(avail,u.top);take(other,u.other);
+     // Mandatory manual addition: infantry only, from remaining top-tier infantry.
+     u.add.w=Math.min(extra,avail.w);avail.w-=u.add.w;
+     if(u.add.w<extra)warnings.push('追加編成の手動追加歩兵が不足しています。');
+     if(!u.full)warnings.push(`追加編成は通常容量に${fmt(cap-registered)}人不足しています。利用できる兵士を最大限割り当てました。`);
+     units.push(u);
+   }
+ }
+ if(joined<maxJoin)warnings.push(`保有兵士数に合わせ、優先編成を${joined}部隊に調整しました。`);
+ if(manualRate!==null&&chosen!==60)warnings.push(`指定された弓兵比率${chosen}%で計算しました。`);
+ return {units,warnings,avail,other,chosen,joined};
+}
+function troopCells(t){return types.map(([id,name,cls])=>`<div class="troop ${cls}"><div class="name">${name}</div><div class="num">${fmt(t[id])}</div></div>`).join('')}
+function ratioRow(name,t){const s=sum(t);return `<tr><th>${name}</th><td>${pct(t.w,s)}</td><td>${pct(t.c,s)}</td><td>${pct(t.b,s)}</td></tr>`}
+function render(){const input=read();const r=build(input);let html=``;
+ if(!r.units.length)html+='<div class="warn">編成を作成できませんでした。兵士数と部隊容量を確認してください。</div>';
+ for(const u of r.units){const hasOther=sum(u.other)>0;const reg={w:u.top.w+u.other.w,c:u.top.c+u.other.c,b:u.top.b+u.other.b};const after={w:reg.w+u.add.w,c:reg.c+u.add.c,b:reg.b+u.add.b};const additions=types.filter(([k])=>u.add[k]>0).map(([k,name])=>`<span class="${k}">${name} ＋${fmt(u.add[k])}</span>`).join(' / ');const bar=types.map(([k,n,cls])=>`<span class="${cls}" style="width:${sum(after)?100*after[k]/sum(after):0}%"></span>`).join('');
+ html+=`<article class="unit"><div class="titleline"><h2>${u.name} ${u.priority?'優先編成':u.name==='集結用'?'自分の集結':'追加編成'}</h2><span class="tag">登録 ${fmt(sum(reg))}人</span></div><div class="mut" style="margin-bottom:7px">切り札兵｜ゲームに入力する人数</div><div class="grid3">${troopCells(u.top)}</div>`;
+ if(hasOther)html+=`<div style="margin-top:10px"><b>切り札兵以外</b><div class="grid3" style="margin-top:7px">${types.map(([k,name,cls])=>`<div class="troop ${cls}"><div class="name">${name}</div><div style="font-weight:750;font-size:13px">${fmt(u.other[k])}${k==='b'&&u.other.b>0?'（全員）':''}</div></div>`).join('')}</div></div>`;
+ html+=`<div class="add">手動追加：${additions||'なし'}</div><table class="ratio"><thead><tr><th>比率</th><th class="w">歩兵</th><th class="c">騎兵</th><th class="b">弓兵</th></tr></thead><tbody>${ratioRow('登録時',reg)}${ratioRow('追加後',after)}</tbody></table><div class="bar">${bar}</div><div class="mut tiny" style="margin-top:7px">追加後 ${fmt(sum(after))}人${!u.full?'（通常容量未満）':''}</div></article>`}
+ html+=`<div class="panel"><h2>残兵数（未割当）</h2><b>切り札兵</b><div class="grid3" style="margin-top:7px">${troopCells(r.avail)}</div><details><summary>切り札兵以外の残兵</summary><div class="grid3" style="margin-top:9px">${troopCells(r.other)}</div></details></div>`;
+ 
+ html+=`<div class="mut foot">※登録数と手動追加数は同じ切り札兵の在庫から差し引いています。比率は切り札兵以外も含む実人数で算出。実戦ダメージの最適値を保証するものではありません。</div>`;
+ document.getElementById('cards').innerHTML=html;document.getElementById('ratePanel').classList.remove('hidden');const bowSelect=document.getElementById('bow');for(const opt of bowSelect.options){opt.textContent=opt.value+'%'+(manualRate===null&&Number(opt.value)===(r.chosen||60)?'（おすすめ）':'');}if(manualRate===null){bowSelect.value=String(r.chosen||60);} document.getElementById('overview').innerHTML=`<div class="titleline"><h2>3. おすすめ編成</h2><span class="tag">${r.units.length}部隊</span></div><b>🐻 自動提案：${r.units.length}部隊</b><br>優先${r.joined}・${r.units.some(u=>u.name==='集結用')?'集結用1・':''}追加${r.units.filter(u=>!u.priority&&u.name!=='集結用').length}。優先の弓兵比率${r.chosen}%、集結用${Math.max(0,r.chosen-10)}%（いずれも手動追加後）。${r.warnings.map(x=>'<div class="warn">⚠ '+x+'</div>').join('')}`;void 0}
+// Format all editable troop and capacity counts with thousands separators.
+function commaFormat(input){
+  const old=input.value, pos=input.selectionStart??old.length;
+  const digitsBefore=old.slice(0,pos).replace(/\D/g,'').length;
+  const digits=old.replace(/\D/g,'');
+  const formatted=digits?Number(digits).toLocaleString('en-US'):'';
+  input.value=formatted;
+  let cursor=0,seen=0;
+  while(cursor<formatted.length&&seen<digitsBefore){if(/\d/.test(formatted[cursor]))seen++;cursor++;}
+  input.setSelectionRange(cursor,cursor);
+}
+document.querySelectorAll('input[data-comma]').forEach(input=>{
+  input.addEventListener('input',()=>commaFormat(input));
+  input.addEventListener('blur',()=>commaFormat(input));
+});
+document.getElementById('calc').addEventListener('click',()=>{try{manualRate=null;render();document.getElementById('overview').scrollIntoView({behavior:'smooth',block:'start'});}catch(e){document.getElementById('overview').innerHTML='<div class="warn">計算エラー：'+String(e.message)+'</div>';}});
+document.getElementById('adjust').addEventListener('click',()=>{try{manualRate=Number(document.getElementById('bow').value);render();document.getElementById('overview').scrollIntoView({behavior:'smooth',block:'start'});}catch(e){document.getElementById('overview').innerHTML='<div class="warn">調整エラー：'+String(e.message)+'</div>';}});
+
+// OCR module only. The v16 calculation engine above is unchanged.
+const shot=document.getElementById('shot'),ocrStatus=document.getElementById('ocrStatus');
+const ocrReview=document.getElementById('ocrReview'),ocrFields=document.getElementById('ocrFields');
+const ocrSlots=[['top_w','切り札 歩'],['top_c','切り札 騎'],['top_b','切り札 弓'],['other_w','通常 歩'],['other_c','通常 騎'],['other_b','通常 弓']];
+const ocrCells=[['top_w',0,0,'切り札歩兵'],['top_c',1,0,'切り札騎兵'],['top_b',0,1,'切り札弓兵'],['other_w',1,1,'豪胆歩兵'],['other_w',0,2,'熟練歩兵'],['other_c',1,2,'熟練騎兵'],['other_b',0,3,'熟練弓兵'],['other_w',1,3,'優秀歩兵'],['other_c',0,4,'優秀騎兵'],['other_b',1,4,'優秀弓兵'],['other_w',0,5,'一般歩兵'],['other_c',1,5,'一般騎兵'],['other_b',0,6,'一般弓兵'],['other_w',1,6,'見習い歩兵'],['other_c',0,7,'見習い騎兵'],['other_b',1,7,'見習い弓兵']];
+function loadOCR(){return new Promise((resolve,reject)=>{if(window.Tesseract){resolve();return}const script=document.createElement('script');script.src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';script.onload=resolve;script.onerror=()=>reject(new Error('OCRを読み込めません。通信を確認してください。'));document.head.appendChild(script)})}
+function loadImage(file){return new Promise((resolve,reject)=>{const u=URL.createObjectURL(file),im=new Image();im.onload=()=>{URL.revokeObjectURL(u);resolve(im)};im.onerror=()=>{URL.revokeObjectURL(u);reject(new Error('画像を開けませんでした'))};im.src=u})}
+function cropNumber(im,col,row,mode,shift=0,left=0){const c=document.createElement('canvas'),ctx=c.getContext('2d',{willReadFrequently:true});
+// Reference positions in the two-column, eight-row troop roster. Include the entire leading digit.
+const x=(col===0?0.208:0.651)*im.width + left*im.width/708;
+const y=(0.291+row*0.0800+shift/1536)*im.height;
+const w=im.width*0.202,h=im.height*0.0185;
+c.width=640;c.height=128;ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);
+ctx.drawImage(im,x,y,w,h,20,16,600,96);
+if(mode){const pix=ctx.getImageData(0,0,c.width,c.height);for(let i=0;i<pix.data.length;i+=4){const v=.299*pix.data[i]+.587*pix.data[i+1]+.114*pix.data[i+2];if(mode===1){const b=v<180?0:255;pix.data[i]=pix.data[i+1]=pix.data[i+2]=b}else if(mode===2){const b=Math.max(0,Math.min(255,(v-128)*1.7+128));pix.data[i]=pix.data[i+1]=pix.data[i+2]=b}}ctx.putImageData(pix,0,0)}return c}
+function expectedDigits(i){return i<3?6:4}
+function candidateScore(c,i){const digits=String(c.n).length,expected=expectedDigits(i);let score=c.confidence;
+if(digits===expected)score+=90;else score-=100*Math.abs(digits-expected);
+if(c.shift===0)score+=2;
+return score}
+function digitsOf(t){const x=(t||'').replace(/[^0-9]/g,'');return x&&x.length<=7?Number(x):null}
+function ocrFmt(n){return n===null?'':n.toLocaleString('en-US')}
+let activeCells=[];
+function refreshTotals(){const totals={top_w:0,top_c:0,top_b:0,other_w:0,other_c:0,other_b:0};let missing=0;for(let i=0;i<activeCells.length;i++){const el=document.getElementById('ocrItem'+i),type=document.getElementById('ocrType'+i).value,d=el.value.replace(/\D/g,'');if(type==='skip')continue;if(d)totals[type]+=Number(d);else missing++}for(const [id] of ocrSlots){const el=document.getElementById('ocr_'+id);el.value=missing?'':ocrFmt(totals[id]);el.placeholder=missing?'要確認':'0'}document.getElementById('ocrMissing').textContent=missing?`未入力 ${missing}件。画像と兵種を確認してください。`:`${activeCells.length}枠を確認中。兵種を見直して6項目の合計を確認してください。`}
+const ocrTypes=[['top_w','切り札歩兵'],['top_c','切り札騎兵'],['top_b','切り札弓兵'],['other_w','通常歩兵'],['other_c','通常騎兵'],['other_b','通常弓兵'],['skip','対象外・空欄']];
+async function readShot(file){ocrReview.classList.add('hidden');ocrStatus.textContent='画像を準備しています…';const im=await loadImage(file);if(im.width<400||im.height<700)throw new Error('画像が小さすぎます');await loadOCR();ocrStatus.textContent='数字を読み取り中…';const worker=await Tesseract.createWorker('eng',1,{logger:m=>{if(m.status==='recognizing text')ocrStatus.textContent='OCR処理中… '+Math.round((m.progress||0)*100)+'%'}});const results=[];const rows=Number(document.getElementById('ocrRows').value);activeCells=Array.from({length:rows*2},(_,i)=>ocrCells[i]||['skip',i%2,Math.floor(i/2),`兵士 ${i+1}`]);
+try{await worker.setParameters({tessedit_char_whitelist:'0123456789,',tessedit_pageseg_mode:'7',preserve_interword_spaces:'0'});
+for(let i=0;i<activeCells.length;i++){
+const [id,col,row,name]=activeCells[i];const variants=[];
+async function scan(shift,mode,left=0){const canvas=cropNumber(im,col,row,mode,shift,left),r=await worker.recognize(canvas),n=digitsOf(r.data.text);if(n!==null&&n>0&&n<10000000)variants.push({n,confidence:r.data.confidence||0,shift,mode,left})}
+// First pass uses the original pixels plus an alternate vertical alignment.
+await scan(0,0);await scan(8,0);await scan(0,1);
+let ranked=variants.slice().sort((a,b)=>candidateScore(b,i)-candidateScore(a,i));
+let best=ranked[0]||null;
+// Check leading-digit disagreements and missing digits using a slightly wider left margin.
+if(!best||String(best.n).length!==expectedDigits(i)||variants.some(v=>v.n!==best.n)){
+await scan(8,1);await scan(12,0);await scan(-5,0);await scan(0,0,-5);await scan(8,0,-5);
+}
+// Consensus matters more than a single confident but wrong first digit.
+const groups=new Map();for(const v of variants){const k=String(v.n),g=groups.get(k)||{n:v.n,count:0,best:-Infinity,member:v};g.count++;const sc=candidateScore(v,i);if(sc>g.best){g.best=sc;g.member=v}groups.set(k,g)}
+const choices=[...groups.values()].sort((a,b)=>((b.count>=2?Math.min(b.count,4)*28:0)+b.best)-((a.count>=2?Math.min(a.count,4)*28:0)+a.best));
+const winner=choices[0]||null;best=winner?winner.member:null;
+const uncertain=!best||String(best.n).length!==expectedDigits(i)||winner.count<2||(choices[1]&&choices[1].count>=2&&choices[1].count===winner.count);
+results.push({name,col,row,value:best?best.n:null,uncertain,shift:best?best.shift:8,left:best?best.left:0});
+ocrStatus.textContent=`数字を確認中… ${i+1}/${activeCells.length}`;
+}
+}finally{await worker.terminate()}
+const previews=results.map((r,i)=>{const [id,col,row,name]=activeCells[i];const canvas=cropNumber(im,col,row,0,r.shift,r.left);return `<div style="border:1px solid #40506a;border-radius:9px;padding:9px;background:#0c192d"><div style="font-size:12px;color:#cbd5e1;margin-bottom:4px">${i+1}. ${name}${r.uncertain?' ⚠️':''}</div><img alt="${name}の数字部分" src="${canvas.toDataURL('image/png')}" style="display:block;width:100%;max-height:52px;object-fit:contain;background:#fff;border-radius:5px;margin-bottom:5px"><select id="ocrType${i}" aria-label="${i+1}番の兵種" style="width:100%;padding:7px;border-radius:6px;background:#10223a;color:white;border:1px solid #40506a;margin-bottom:5px">${ocrTypes.map(([v,label])=>`<option value="${v}" ${v===id?'selected':''}>${label}</option>`).join('')}</select><input id="ocrItem${i}" type="text" inputmode="numeric" value="${ocrFmt(r.value)}" placeholder="要確認" style="width:100%;padding:8px;border-radius:7px;border:1px solid #40506a;background:#0b1629;color:white;font-size:16px"></div>`}).join('');
+ocrFields.innerHTML=`<p style="grid-column:1/-1;color:#cbd5e1;font-size:13px;margin:0">切り出した画像・人数・兵種を確認してください。並び順が異なる場合は兵種を選び直せます。写っていない枠は「対象外・空欄」にしてください。</p><div style="grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px">${previews}</div><div id="ocrMissing" style="grid-column:1/-1;color:#fbbf24;font-size:13px"></div><div style="grid-column:1/-1;font-weight:bold;margin-top:6px">6項目の合計（自動集計）</div>`+ocrSlots.map(([id,name])=>`<div class="fld"><label for="ocr_${id}">${name}</label><input id="ocr_${id}" type="text" inputmode="numeric" readonly style="opacity:.9" placeholder="要確認"></div>`).join('');
+ocrReview.classList.remove('hidden');ocrFields.querySelectorAll('[id^="ocrItem"]').forEach(el=>el.addEventListener('input',refreshTotals));ocrFields.querySelectorAll('[id^="ocrType"]').forEach(el=>el.addEventListener('change',refreshTotals));refreshTotals();ocrStatus.textContent='読み取りが完了しました。画像と兵種の対応を確認してください。';}
+shot.addEventListener('change',async()=>{const f=shot.files&&shot.files[0];if(!f)return;try{await readShot(f)}catch(e){ocrStatus.textContent='読み取りエラー：'+e.message}finally{shot.value=''}});
+document.getElementById('applyOcr').addEventListener('click',()=>{for(let i=0;i<activeCells.length;i++){if(document.getElementById('ocrType'+i).value!=='skip'&&!document.getElementById('ocrItem'+i).value.replace(/\D/g,'')){ocrStatus.textContent='未入力の数字があります。兵種と人数を確認してください。';return}}refreshTotals();for(const [id] of ocrSlots){const v=document.getElementById('ocr_'+id).value;document.getElementById(id).value=v}ocrStatus.textContent='兵士数6項目を反映しました。おすすめを自動計算してください。';ocrReview.classList.add('hidden')});
+</script>
+<script>
+/* Browser-local autosave: no server upload, no image persistence. */
+(function(){
+  const KEY='kumawana-autosave-v1';
+  const ids=['top_w','top_c','top_b','other_w','other_c','other_b','cap','extra','leaders','mode','fill','ocrRows','bow'];
+  const fields=()=>ids.map(id=>document.getElementById(id)).filter(Boolean);
+  const note=document.getElementById('saveNotice');
+  let storageOK=true;
+  function save(){
+    const state={};
+    for(const el of fields()) state[el.id]=el.type==='checkbox'?el.checked:el.value;
+    try{localStorage.setItem(KEY,JSON.stringify(state));if(note)note.textContent='入力内容はこの端末のブラウザに自動保存されます';}
+    catch(e){storageOK=false;if(note)note.textContent='このブラウザでは自動保存できません';}
+  }
+  try{
+    const state=JSON.parse(localStorage.getItem(KEY)||'null');
+    if(state&&typeof state==='object'){
+      for(const el of fields()){
+        if(!Object.prototype.hasOwnProperty.call(state,el.id))continue;
+        if(el.type==='checkbox')el.checked=!!state[el.id];
+        else el.value=(el.matches('input[data-comma]') ? String(state[el.id]).replace(/\B(?=(\d{3})+(?!\d))/g,',') : String(state[el.id]));
+      }
+      if(note)note.textContent='前回の入力内容を復元しました（この端末のみ）';
+    }
+  }catch(e){if(note)note.textContent='保存データを読み込めませんでした';}
+  document.addEventListener('input',e=>{if(e.target&&ids.includes(e.target.id))save();});
+  document.addEventListener('change',e=>{if(e.target&&ids.includes(e.target.id))save();});
+  // OCR populates input values programmatically; capture after the click handler completes.
+  const apply=document.getElementById('applyOcr');
+  if(apply)apply.addEventListener('click',()=>setTimeout(save,0));
+  const reset=document.getElementById('clearSaved');
+  if(reset)reset.addEventListener('click',()=>{
+    if(!confirm('保存した兵士数と編成条件を消して、初期状態に戻しますか？'))return;
+    try{localStorage.removeItem(KEY)}catch(e){}
+    for(const el of fields()){
+      if(el.type==='checkbox')el.checked=el.defaultChecked;
+      else if(el.tagName==='SELECT')el.selectedIndex=[...el.options].findIndex(o=>o.defaultSelected)>=0?[...el.options].findIndex(o=>o.defaultSelected):0;
+      else el.value='';
+    }
+    document.getElementById('ocrReview')?.classList.add('hidden');
+    document.getElementById('ratePanel')?.classList.add('hidden');
+    const cards=document.getElementById('cards');if(cards)cards.innerHTML='';
+    const overview=document.getElementById('overview');if(overview)overview.textContent='兵士数から部隊数と弓兵比率を自動提案します。集結用ありの場合は必ず集結用を優先します。';
+    if(note)note.textContent='初期化しました。次の入力から自動保存します';
+  });
+})();
+</script>
+</body></html>
